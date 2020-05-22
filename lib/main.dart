@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 
+import './question.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp>{
-  var qIndex = 0;
+// adding _ in front of classname makes it only accessible within this dart file, i.e., its a private class for main.dart file
+class _MyAppState extends State<MyApp> {
+  var _qIndex = 0;
 
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
-      qIndex++;
-    });
-    print(qIndex);
+      _qIndex++;
+    }); // Without this the properties of the widgets are changed but not rendered on the screen
+    print(_qIndex);
   }
 
   @override
@@ -30,12 +33,12 @@ class MyAppState extends State<MyApp>{
         ),
         body: Column(
           children: <Widget>[
-            Text(
-              q[qIndex],
+            Question(
+              q[_qIndex],
             ),
             RaisedButton(
               child: Text('A1'),
-              onPressed: answerQuestion,
+              onPressed: _answerQuestion,
             ),
             RaisedButton(
               child: Text('A2'),
@@ -50,5 +53,4 @@ class MyAppState extends State<MyApp>{
       ),
     );
   }
-
 }
