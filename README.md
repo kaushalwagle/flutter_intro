@@ -1,6 +1,6 @@
-# first_app
+# Flutter Intro App
 
-A new Flutter project.
+First app based on [Udemy Course](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps)
 
 ## Getting Started
 
