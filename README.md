@@ -2,15 +2,15 @@
 
 First app based on [Udemy Course](https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps)
 
-## Getting Started
+## Release Naming Convention
+- v.~~1~~.1.1 = Major change
+- v.1.~~1~~.1 = Section the app was taught
+- v.1.1.~~1~~ = Lecture the final app is built
 
-This project is a starting point for a Flutter application.
+## Release v.1.2.53
+A Quiz ment for personality assessment
+- This release will include everything that was taught in section two.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Under Development v.2.4.111[Under develo]
+A Personal Expense app to track daily expenses
+- This release will include everything taught on 

@@ -1,79 +1,121 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import './quiz.dart';
-import './result.dart';
+import './transaction.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _MyAppState();
-  }
-}
-
-// adding _ in front of classname makes it only accessible within this dart file, i.e., its a private class for main.dart file
-class _MyAppState extends State<MyApp> {
-  final _questions = const [
-    {
-      'questionText': "Question Number 1?",
-      'answers': [
-        {'text': 'Wright', 'score': 10},
-        {'text': 'Fight', 'score': 0},
-        {'text': 'Right', 'score': 100}
-      ],
-    },
-    {
-      'questionText': 'Second Question?',
-      'answers': [
-        {'text': 'ummmm..', 'score': 10},
-        {'text': 'what?', 'score': 100},
-        {'text': 'Oh okaye!', 'score': 20}
-      ],
-    },
-    {
-      'questionText': '(reverse ?) Tercero pregunta?',
-      'answers': [
-        {'text': 'uhh', 'score': 10},
-        {'text': 'Que?', 'score': 50},
-        {'text': 'bien', 'score': 100}
-      ],
-    },
-  ];
-
-  var _qIndex = 0;
-  var _totalScore = 0;
-
-  void _resetQuiz() {
-    setState(() {
-      _qIndex = 0;
-      _totalScore = 0;
-    });
-  }
-
-  void _answerQuestion(int score) {
-    _totalScore += score;
-    setState(() {
-      _qIndex++;
-    }); // Without this the properties of the widgets are changed but not rendered on the screen
-    print(_qIndex);
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('My First app?'),
-        ),
-        body: _qIndex < _questions.length
-            ? Quiz(
-                questions: _questions,
-                qIndex: _qIndex,
-                answerHandler: _answerQuestion,
-              )
-            : Result(_totalScore, _resetQuiz),
+      title: 'Flutter App',
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  final List<Transaction> transactions = [
+    Transaction(
+      id: 'T1',
+      title: 'Grocery',
+      amount: 90.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Brake Pads',
+      amount: 48.65,
+      date: DateTime.now(),
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter App'),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Card(
+            color: Colors.purpleAccent,
+            child: Container(
+              child: Text(
+                'CHART',
+                textAlign: TextAlign.center,
+              ),
+              width: double.infinity,
+              height: 50,
+            ),
+            elevation: 5,
+          ),
+          Column(
+            children: transactions.map((tx) {
+              return Card(
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.red,
+                          width: 2,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        '\$' + tx.amount.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          tx.title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 3),
+                          child: Text(
+                            tx.date.month.toString() +
+                                '-' +
+                                tx.date.day.toString() +
+                                '-' +
+                                tx.date.year.toString(),
+                            style: TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: FlatButton(
+                        child: Text('Delete'),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ],
       ),
     );
   }
