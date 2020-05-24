@@ -13,7 +13,7 @@ class TransactionList extends StatelessWidget {
     return Container(
       height: 300,
       child: ListView.builder(
-        itemBuilder: (contex, index) {
+        itemBuilder: (context, index) {
           return Card(
             child: Row(
               children: <Widget>[
@@ -24,17 +24,17 @@ class TransactionList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.green,
+                      color: Theme.of(context).primaryColorLight,
                       width: 2,
                     ),
                   ),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    '\$${_transactions[index].amount}',
+                    '\$${_transactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.green,
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),
@@ -63,9 +63,8 @@ class TransactionList extends StatelessWidget {
                 ),
                 Container(
                   alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    child: Text('Delete'),
-                    onPressed: () {},
+                  child: IconButton(
+                    icon: Icon(Icons.delete),
                   ),
                 ),
               ],
