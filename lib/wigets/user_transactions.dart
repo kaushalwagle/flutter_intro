@@ -23,6 +23,39 @@ class _UserTransactionsState extends State<UserTransactions> {
       title: 'Brake Pads',
       amount: 48.65,
       date: DateTime.now(),
+    ),Transaction(
+      id: 'T1',
+      title: 'Grocery',
+      amount: 90.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Brake Pads',
+      amount: 48.65,
+      date: DateTime.now(),
+    ),Transaction(
+      id: 'T1',
+      title: 'Grocery',
+      amount: 90.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Brake Pads',
+      amount: 48.65,
+      date: DateTime.now(),
+    ),Transaction(
+      id: 'T1',
+      title: 'Grocery',
+      amount: 90.99,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 'T2',
+      title: 'Brake Pads',
+      amount: 48.65,
+      date: DateTime.now(),
     ),
   ];
 
