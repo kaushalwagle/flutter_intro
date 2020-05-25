@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import './wigets/transaction_list.dart';
+import './widgets/transaction_list.dart';
 import './models/transaction.dart';
-import './wigets/new_transaction.dart';
+import './widgets/new_transaction.dart';
+import './widgets/chart.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,11 +14,23 @@ class MyApp extends StatelessWidget {
       title: 'Personal Expenses',
       home: MyHomePage(),
       theme: ThemeData(
-        primarySwatch: Colors.green,
-        accentColor: Colors.amber,
+        primarySwatch: Colors.red,
+        accentColor: Colors.blueAccent,
         fontFamily: 'OldComputerMono',
+        textTheme: ThemeData.light().textTheme.copyWith(
+              subtitle1: TextStyle(
+                fontFamily: 'OldComputerMono',
+                fontSize: 18,
+              ),
+            ),
         appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(headline6: TextStyle(fontFamily: 'Monoglade')),
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontFamily: 'Monoglade',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
         ),
       ),
     );
@@ -35,15 +48,22 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 'T1',
       title: 'Grocery',
       amount: 90.99,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 2)),
     ),
     Transaction(
       id: 'T2',
       title: 'Brake Pads',
       amount: 48.65,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 1)),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions
+        .where(
+            (tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7))))
+        .toList();
+  }
 
   void _addNewTransaction({@required String title, @required double amount}) {
     final newTx = Transaction(
@@ -55,6 +75,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _userTransactions.add(newTx);
+    });
+  }
+
+  void _removeTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -89,18 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Card(
-              color: Colors.purpleAccent,
-              child: Container(
-                child: Text(
-                  'CHART',
-                  textAlign: TextAlign.center,
-                ),
-                width: double.infinity,
-              ),
-              elevation: 5,
-            ),
-            TransactionList(_userTransactions)
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions, _removeTransaction)
           ],
         ),
       ),
