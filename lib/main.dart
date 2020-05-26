@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Toast.show(
         'Transaction Added',
         context,
-        duration: 2,
+        duration: 5,
         gravity: Toast.BOTTOM,
       );
     });
@@ -91,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Toast.show(
         'Transaction Removed',
         context,
-        duration: 2,
+        duration: 5,
         gravity: Toast.BOTTOM,
       );
     });
