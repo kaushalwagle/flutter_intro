@@ -8,9 +8,9 @@ First app based on [Udemy Course](https://www.udemy.com/course/learn-flutter-dar
 - v.1.1.~~1~~ = Lecture the final app is built
 
 ## Release v.1.2.53
-A Quiz ment for personality assessment
+A Quiz meant for personality assessment
 - This release will include everything that was taught in section two.
 
-## Under Development v.2.4.111[Under develo]
-A Personal Expense app to track daily expenses
-- This release will include everything taught on 
+## Under Development v.2.4.111
+- A Personal Expense app to track daily expenses
+- This release will include everything taught on Section 4
