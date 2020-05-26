@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 import './widgets/transaction_list.dart';
 import './models/transaction.dart';
@@ -75,12 +76,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _userTransactions.add(newTx);
+      Toast.show(
+        'Transaction Added',
+        context,
+        duration: 2,
+        gravity: Toast.BOTTOM,
+      );
     });
   }
 
   void _removeTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
+      Toast.show(
+        'Transaction Removed',
+        context,
+        duration: 2,
+        gravity: Toast.BOTTOM,
+      );
     });
   }
 
