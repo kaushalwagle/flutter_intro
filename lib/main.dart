@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:toast/toast.dart';
 
 import './widgets/transaction_list.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
               subtitle1: TextStyle(
                 fontFamily: 'OldComputerMono',
                 fontSize: 18,
+              ),
+              button: TextStyle(
+                color: Colors.white,
               ),
             ),
         appBarTheme: AppBarTheme(
@@ -66,11 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  void _addNewTransaction({@required String title, @required double amount}) {
+  void _addNewTransaction({
+    @required String title,
+    @required double amount,
+    @required DateTime date,
+  }) {
     final newTx = Transaction(
       title: title,
       amount: amount,
-      date: DateTime.now(),
+      date: date,
       id: DateTime.now().toString(),
     );
 
@@ -85,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _removeTransaction(String id) {
+  void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
       Toast.show(
@@ -129,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_userTransactions, _removeTransaction)
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),

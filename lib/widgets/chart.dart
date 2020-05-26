@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../models/transaction.dart';
@@ -31,12 +30,11 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay).substring(0, 1),
         'amount': totalSum
       };
-    });
+    }).reversed.toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),

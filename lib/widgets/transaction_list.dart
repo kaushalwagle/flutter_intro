@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -15,7 +13,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 555,
       child: _transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -56,49 +54,30 @@ class TransactionList extends StatelessWidget {
                     child: SlidableDrawerDismissal(),
                   ),
                   child: Card(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                            horizontal: 15,
-                            vertical: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).primaryColorLight,
-                              width: 2,
-                            ),
-                          ),
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            '\$${_transactions[index].amount.toStringAsFixed(2)}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Theme.of(context).primaryColor,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: Padding(
+                          padding: EdgeInsets.all(6),
+                          child: FittedBox(
+                            child: Text(
+                              '\$${_transactions[index].amount.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                _transactions[index].title,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 3),
-                              child: Text(
-                                DateFormat('yMMMd')
-                                    .format(_transactions[index].date),
-                                style: Theme.of(context).textTheme.overline,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                      ),
+                      title: Text(
+                        _transactions[index].title,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      subtitle: Text(
+                        DateFormat.yMMMMd().format( _transactions[index].date),
+                        style: Theme.of(context).textTheme.caption,
+                      ),
                     ),
                   ),
                 );
