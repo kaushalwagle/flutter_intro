@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toast/toast.dart';
 
@@ -116,17 +115,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startAddNewTransaction(BuildContext context) {
-    showModalBottomSheet(
+    showDialog<bool>(
         context: context,
         builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: NewTransaction(_addNewTransaction),
-            behavior: HitTestBehavior.opaque,
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Container(
+              height: 250,
+              child: NewTransaction(_addNewTransaction),
+            ),
           );
         });
   }
-
 
   double _effectiveDisplayHeight(MediaQueryData mediaQuery, AppBar appBar) =>
       mediaQuery.size.height -
@@ -137,8 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    final isLandscape =
-        mediaQuery.orientation == Orientation.landscape;
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final PreferredSizeWidget appBar = AppBar(
       title: Text(

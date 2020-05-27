@@ -54,55 +54,60 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Card(
-        elevation: 5,
-        child: Container(
-          padding: EdgeInsets.only(
-            top: 10,
-            left: 10,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-            right: 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: 'Title'),
-                controller: _titleController,
-                //onChanged: (value){titleInput =value;},
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: 'Amount'),
-                controller: _amountController,
-                keyboardType: TextInputType.number,
-                onSubmitted: (_) => _submitData(),
-                //onChanged: (value) => amountInput=value,
-              ),
-              Row(
-                children: <Widget>[
-                  Text(
-                    _selectedDate == null
-                        ? 'No Date Choosen'
-                        : 'Picked Date: ${DateFormat.yMMMMd().format(_selectedDate)}',
+      child: Container(
+        padding: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          bottom: 10,
+          right: 10,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            TextField(
+              decoration: InputDecoration(labelText: 'Title'),
+              controller: _titleController,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                FocusScope.of(context).nextFocus();
+              },
+              //onChanged: (value){titleInput =value;},
+            ),
+            TextField(
+              decoration: InputDecoration(labelText: 'Amount'),
+              controller: _amountController,
+              keyboardType: TextInputType.number,
+              textInputAction: TextInputAction.next,
+              onSubmitted: (value) {
+                _selectedDate == null ? _presentDatePicker() : _submitData();
+              },
+              //onChanged: (value) => amountInput=value,
+            ),
+            Row(
+              children: <Widget>[
+                Text(
+                  _selectedDate == null
+                      ? 'No Date Choosen'
+                      : 'Picked Date: ${DateFormat.yMMMMd().format(_selectedDate)}',
+                ),
+                FlatButton(
+                  textColor: Theme.of(context).primaryColor,
+                  onPressed: _presentDatePicker,
+                  child: Text(
+                    'Choose Date',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  FlatButton(
-                    textColor: Theme.of(context).primaryColor,
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-              RaisedButton(
-                child: Text('Add Transaction'),
-                onPressed: _submitData,
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
-              ),
-            ],
-          ),
+                )
+              ],
+            ),
+            RaisedButton(
+              child: Text('Add Transaction'),
+              onPressed: _submitData,
+              color: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).textTheme.button.color,
+            ),
+          ],
         ),
       ),
     );
