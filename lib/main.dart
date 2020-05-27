@@ -127,15 +127,18 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  double _effectiveDisplayHeight(context, AppBar appBar) =>
-      MediaQuery.of(context).size.height -
-      MediaQuery.of(context).padding.top -
+
+  double _effectiveDisplayHeight(MediaQueryData mediaQuery, AppBar appBar) =>
+      mediaQuery.size.height -
+      mediaQuery.padding.top -
       appBar.preferredSize.height;
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     final isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+        mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text(
@@ -150,12 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     final txListWidget = Container(
-      height: _effectiveDisplayHeight(context, appBar) * 0.7,
+      height: _effectiveDisplayHeight(mediaQuery, appBar) * 0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
     Container chratWidget(double p) => Container(
-          height: _effectiveDisplayHeight(context, appBar) * p,
+          height: _effectiveDisplayHeight(mediaQuery, appBar) * p,
           child: Chart(_recentTransactions),
         );
 

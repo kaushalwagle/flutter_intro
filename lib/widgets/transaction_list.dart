@@ -42,7 +42,7 @@ class TransactionList extends StatelessWidget {
                 key: Key(_transactions[index].id),
                 actionPane: SlidableDrawerActionPane(),
                 secondaryActions: <Widget>[
-                  IconSlideAction(
+                   IconSlideAction(
                     caption: 'Delete',
                     color: Colors.red.shade300,
                     icon: Icons.delete,
