@@ -140,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape =
         mediaQuery.orientation == Orientation.landscape;
 
-    final appBar = AppBar(
+    final PreferredSizeWidget appBar = AppBar(
       title: Text(
         'Personal Expenses',
       ),
