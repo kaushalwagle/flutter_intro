@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:toast/toast.dart';
@@ -54,21 +56,8 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-      id: 'T1',
-      title: 'Grocery',
-      amount: 90.99,
-      date: DateTime.now().subtract(Duration(days: 2)),
-    ),
-    Transaction(
-      id: 'T2',
-      title: 'Brake Pads',
-      amount: 48.65,
-      date: DateTime.now().subtract(Duration(days: 1)),
-    ),
-  ];
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  final List<Transaction> _userTransactions = [];
 
   bool _showChart = false;
 
@@ -77,6 +66,35 @@ class _MyHomePageState extends State<MyHomePage> {
         .where(
             (tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7))))
         .toList();
+  }
+
+  Future _fillTransactionData() async {
+    await Future.delayed(Duration(
+      seconds: 5,
+    ));
+    Random rnd = Random();
+    List<Transaction> rndTx = [];
+    for (int i = 0; i < 10; i++) {
+      rndTx.add(Transaction(
+        id: DateTime.now().toString(),
+        title: 'Transaction ${i + 1}',
+        amount: 100 * rnd.nextDouble(),
+        date: DateTime.now().subtract(Duration(days: rnd.nextInt(7))),
+      ));
+    }
+    return rndTx;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fillTransactionData().then((value) {
+      setState(() {
+        _userTransactions.clear();
+        _userTransactions.addAll(value);
+        print('Values Addes!');
+      });
+    });
   }
 
   void _addNewTransaction({
@@ -135,6 +153,43 @@ class _MyHomePageState extends State<MyHomePage> {
       mediaQuery.padding.top -
       appBar.preferredSize.height;
 
+  List<Widget> _buildLandscapeContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('Show Chart'),
+          Switch(
+            value: _showChart,
+            onChanged: (value) {
+              setState(() {
+                _showChart = value;
+              });
+            },
+          ),
+        ],
+      ),
+      _showChart
+          ? Container(
+              height: _effectiveDisplayHeight(mediaQuery, appBar) * 0.7,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+      MediaQueryData mediaQuery, AppBar appBar, Widget txListWidget) {
+    return [
+      Container(
+        height: _effectiveDisplayHeight(mediaQuery, appBar) * 0.3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -158,11 +213,6 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
 
-    Container chratWidget(double p) => Container(
-          height: _effectiveDisplayHeight(mediaQuery, appBar) * p,
-          child: Chart(_recentTransactions),
-        );
-
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -171,23 +221,17 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Show Chart'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showChart = value;
-                      });
-                    },
-                  ),
-                ],
+              ..._buildLandscapeContent(
+                mediaQuery,
+                appBar,
+                txListWidget,
               ),
-            if (!isLandscape) chratWidget(0.3),
-            if (!isLandscape) txListWidget,
-            if (isLandscape) _showChart ? chratWidget(0.7) : txListWidget
+            if (!isLandscape)
+              ..._buildPortraitContent(
+                mediaQuery,
+                appBar,
+                txListWidget,
+              ),
           ],
         ),
       ),
